@@ -1,11 +1,14 @@
 const express = require('express');
 const dotenv = require ('dotenv');
-const sequelize =require('sequelize')
-
+const Sequelize =require('sequelize')
+const {readdirSync} = require('fs');
 const app = express();
-dotenv.config()
+require('dotenv').config();
 
 app.use(express.json())
+readdirSync('./routes').map((r) => app.use('/api', require(`./routes/${r}`)));
+
+//db connection
 
 const port = process.env.PORT || 8080;
 app.listen(port ,()=> console.log(`server is running on port ${port}`))
