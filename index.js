@@ -1,6 +1,6 @@
 const express = require('express');
 const dotenv = require ('dotenv');
-const Sequelize =require('sequelize')
+
 const {readdirSync} = require('fs');
 const app = express();
 require('dotenv').config();
