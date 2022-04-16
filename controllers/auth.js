@@ -1,5 +1,6 @@
 const User = require("../models/user")
 const CryptoJs = require ("crypto-js")
+const jwt = require ("jsonwebtoken")
 
 module.exports= { 
     //REGISTRATION OF USERS
@@ -37,8 +38,18 @@ module.exports= {
             //compairing the passwords
             Originalpassword !== req.body.password && res.status(401).json("wrong credentials")
             
+            //assigning the jwt with the following properties
+            const accessToken = jwt.sign({
+                id:user._id,
+                isAdmin:user.isAdmin,
+
+            },process.env.JWT_SEC,
+            {expiresIn:"3d"}
+            );
+
+
         const { password, ...others } = user;  
-        res.status(200).json(others);
+        res.status(200).json(others,accessToken);
             //res.status(200).json(user)
         }catch(err){
             console.log("this is the login error",err)
